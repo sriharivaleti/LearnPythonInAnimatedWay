@@ -3,7 +3,10 @@
  * All sessions, subsections, animated states, and code walkthroughs are defined here.
  */
 
-const CURRICULUM = [
+(function (global) {
+  'use strict';
+
+  const CURRICULUM = [
   {
     id: "session-1",
     title: "1. Python Overview",
@@ -510,6 +513,6 @@ const CurriculumStore = {
   }
 };
 
-const root = typeof window !== 'undefined' ? window : globalThis;
-root.CURRICULUM = CURRICULUM;
-root.CurriculumStore = CurriculumStore;
+  global.CURRICULUM = CURRICULUM;
+  global.CurriculumStore = CurriculumStore;
+})(typeof window !== 'undefined' ? window : globalThis);

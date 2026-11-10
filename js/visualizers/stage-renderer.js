@@ -11,7 +11,10 @@
  * - Memory & References Model (Stack & Heap)
  */
 
-class StageRenderer {
+(function (global) {
+  'use strict';
+
+  class StageRenderer {
   constructor(canvasEl, svgEl) {
     this.canvas = canvasEl;
     this.svg = svgEl;
@@ -579,5 +582,5 @@ class StageRenderer {
   }
 }
 
-const root = typeof window !== 'undefined' ? window : globalThis;
-root.StageRenderer = StageRenderer;
+  global.StageRenderer = StageRenderer;
+})(typeof window !== 'undefined' ? window : globalThis);
