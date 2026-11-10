@@ -16,8 +16,8 @@
       this.timerId = null;
 
       // Callbacks
-      this.onStepChange = options.onStepChange || (() => {});
-      this.onPlayStateChange = options.onPlayStateChange || (() => {});
+      this.onStepChange = options.onStepChange || (() => { });
+      this.onPlayStateChange = options.onPlayStateChange || (() => { });
     }
 
     loadSteps(steps) {
@@ -29,7 +29,7 @@
 
     play() {
       if (this.isPlaying || this.steps.length === 0) return;
-      
+
       // If we're at the end, restart from step 0
       if (this.currentStep >= this.steps.length - 1) {
         this.currentStep = 0;
@@ -61,7 +61,7 @@
 
     scheduleNextTick() {
       if (!this.isPlaying) return;
-      
+
       const delay = this.stepIntervalMs / this.playbackSpeed;
       this.timerId = setTimeout(() => {
         if (this.currentStep < this.steps.length - 1) {

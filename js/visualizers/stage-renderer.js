@@ -237,45 +237,49 @@
       {
         icon: '🌱',
         title: 'Beginner-Friendly',
-        desc: 'Clean, readable syntax that mirrors plain English. Minimal boilerplate.'
+        desc: 'Clean, readable syntax that mirrors plain English with minimal boilerplate.'
       },
       {
         icon: '💼',
-        title: 'High Industry Demand',
-        desc: 'Ranked #1 most popular programming language across tech, finance, and startups.'
+        title: 'Used in Many Industries',
+        desc: 'Adopted across top tech giants, startups, finance, science, and healthcare.'
+      },
+      {
+        icon: '✍️',
+        title: 'Simple & Clean Syntax',
+        desc: 'Code looks clear and understandable so you focus on problem-solving.'
       },
       {
         icon: '📦',
-        title: 'Massive Library Support',
-        desc: 'Over 500,000+ packages on PyPI for math, web, vision, ML, and automation.'
-      },
-      {
-        icon: '🤖',
-        title: 'AI & Data Science Leader',
-        desc: 'The official lingua franca for PyTorch, TensorFlow, Pandas, and NumPy.'
+        title: 'Many Libraries (500k+)',
+        desc: 'Massive ecosystem on PyPI with pre-built packages for every domain.'
       },
       {
         icon: '⚡',
-        title: 'Automation & Scripting',
-        desc: 'Eliminate repetitive manual tasks, web scrape, and automate file workflows in minutes.'
+        title: 'Good for Automation',
+        desc: 'Automate repetitive tasks, file processing, and scripts in just a few lines.'
       },
       {
-        icon: '🌐',
-        title: 'Robust Backend APIs',
-        desc: 'Powers Instagram, Spotify, Dropbox, and Google backend services.'
+        icon: '🤖',
+        title: 'AI, Data Science & Backend',
+        desc: 'Industry standard for Machine Learning, Data Analytics, and web backends.'
       }
     ];
 
     let html = `
       <div class="why-python-stage">
         <div class="why-grid">
-          ${cards.map((c, idx) => `
-            <div class="why-card ${activeIndex === idx ? 'focused' : ''} ${activeIndex >= 0 && activeIndex !== idx ? 'dimmed' : ''}">
-              <div class="why-card-icon">${c.icon}</div>
-              <div class="why-card-title">${c.title}</div>
-              <div class="why-card-desc">${c.desc}</div>
-            </div>
-          `).join('')}
+          ${cards.map((c, idx) => {
+            const isFocused = activeIndex === idx || activeIndex === 'all';
+            const isDimmed = activeIndex >= 0 && activeIndex !== idx && activeIndex !== 'all';
+            return `
+              <div class="why-card ${isFocused ? 'focused' : ''} ${isDimmed ? 'dimmed' : ''}">
+                <div class="why-card-icon">${c.icon}</div>
+                <div class="why-card-title">${c.title}</div>
+                <div class="why-card-desc">${c.desc}</div>
+              </div>
+            `;
+          }).join('')}
         </div>
       </div>
     `;
