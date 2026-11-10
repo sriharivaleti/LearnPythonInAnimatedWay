@@ -217,7 +217,7 @@ body {
 }
 
 .session-group {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .session-title {
@@ -226,18 +226,44 @@ body {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  padding: 0.4rem 0.75rem;
+  padding: 0.45rem 0.65rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
   cursor: pointer;
   border-radius: var(--radius-sm);
   user-select: none;
+  transition: all 0.2s ease;
 }
 
 .session-title:hover {
   color: var(--text-main);
   background: var(--bg-tertiary);
+}
+
+.session-title-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.session-folder-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.session-chevron {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  user-select: none;
+  padding: 0 0.25rem;
+}
+
+.session-group.collapsed .topic-list {
+  display: none;
 }
 
 .topic-list {

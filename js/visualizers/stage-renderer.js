@@ -15,16 +15,16 @@
   'use strict';
 
   class StageRenderer {
-  constructor(canvasEl, svgEl) {
-    this.canvas = canvasEl;
-    this.svg = svgEl;
-    this.memoryVisualizer = new MemoryVisualizer(canvasEl, svgEl);
-    this.currentMode = null;
-  }
+    constructor(canvasEl, svgEl) {
+      this.canvas = canvasEl;
+      this.svg = svgEl;
+      this.memoryVisualizer = new MemoryVisualizer(canvasEl, svgEl);
+      this.currentMode = null;
+    }
 
-  clear() {
-    this.canvas.innerHTML = '';
-    this.svg.innerHTML = `
+    clear() {
+      this.canvas.innerHTML = '';
+      this.svg.innerHTML = `
       <defs>
         <marker id="arrowhead" markerWidth="10" markerHeight="7" 
                 refX="9" refY="3.5" orient="auto">
@@ -32,92 +32,92 @@
         </marker>
       </defs>
     `;
-  }
-
-  render(visualState) {
-    if (!visualState) {
-      this.clear();
-      return;
     }
 
-    const mode = visualState.mode || 'memory';
-    this.currentMode = mode;
-
-    switch (mode) {
-      case 'history-timeline':
-        this.renderHistoryTimeline(visualState);
-        break;
-      case 'file-runner':
-        this.renderFileRunner(visualState);
-        break;
-      case 'why-python':
-        this.renderWhyPython(visualState);
-        break;
-      case 'features-matrix':
-        this.renderFeaturesMatrix(visualState);
-        break;
-      case 'version-comparison':
-        this.renderVersionComparison(visualState);
-        break;
-      case 'pipeline-flow':
-        this.renderPipelineFlow(visualState);
-        break;
-      case 'compiler-vs-interpreter':
-        this.renderCompilerVsInterpreter(visualState);
-        break;
-      case 'memory':
-      default:
-        this.memoryVisualizer.renderState(visualState);
-        break;
-    }
-  }
-
-  // 1.1 History of Python Visualizer
-  renderHistoryTimeline(state) {
-    this.clear();
-    const activeMilestone = state.activeMilestone || 0;
-
-    const milestones = [
-      {
-        year: 'Late 1980s',
-        title: 'The Origin at CWI',
-        subtitle: 'Guido van Rossum starts Python project',
-        icon: '👨‍💻',
-        detail: 'Guido set out to build an intuitive, readable language where developers focus on problem solving rather than complex syntax.'
-      },
-      {
-        year: '1991',
-        title: 'Python 0.9.0 Released',
-        subtitle: 'First public release',
-        icon: '🚀',
-        detail: 'Shipped with functions, exception handling, and core types: list, dict, and str.'
-      },
-      {
-        year: 'The Name',
-        title: "Monty Python's Circus",
-        subtitle: 'Not named after a snake!',
-        icon: '🎭',
-        detail: 'Named in honor of the surreal British comedy show "Monty Python\'s Flying Circus".'
-      },
-      {
-        year: 'Today',
-        title: 'Global Phenomenon',
-        subtitle: '#1 Language worldwide',
-        icon: '🌐',
-        detail: 'Powers AI, Data Science, Web, Automation, Testing, and Cloud Backend Infrastructure.'
+    render(visualState) {
+      if (!visualState) {
+        this.clear();
+        return;
       }
-    ];
 
-    const domains = [
-      { name: 'AI & Machine Learning', icon: '🤖' },
-      { name: 'Data Science', icon: '📊' },
-      { name: 'Web Development', icon: '🌐' },
-      { name: 'Automation & Scripting', icon: '⚡' },
-      { name: 'Testing & QA', icon: '🧪' },
-      { name: 'Backend Services', icon: '🖥️' }
-    ];
+      const mode = visualState.mode || 'memory';
+      this.currentMode = mode;
 
-    let html = `
+      switch (mode) {
+        case 'history-timeline':
+          this.renderHistoryTimeline(visualState);
+          break;
+        case 'file-runner':
+          this.renderFileRunner(visualState);
+          break;
+        case 'why-python':
+          this.renderWhyPython(visualState);
+          break;
+        case 'features-matrix':
+          this.renderFeaturesMatrix(visualState);
+          break;
+        case 'version-comparison':
+          this.renderVersionComparison(visualState);
+          break;
+        case 'pipeline-flow':
+          this.renderPipelineFlow(visualState);
+          break;
+        case 'compiler-vs-interpreter':
+          this.renderCompilerVsInterpreter(visualState);
+          break;
+        case 'memory':
+        default:
+          this.memoryVisualizer.renderState(visualState);
+          break;
+      }
+    }
+
+    // 1.1 History of Python Visualizer
+    renderHistoryTimeline(state) {
+      this.clear();
+      const activeMilestone = state.activeMilestone || 0;
+
+      const milestones = [
+        {
+          year: 'Late 1980s',
+          title: 'The Origin at CWI',
+          subtitle: 'Guido van Rossum starts Python project',
+          icon: '👨‍💻',
+          detail: 'Guido set out to build an intuitive, readable language where developers focus on problem solving rather than complex syntax.'
+        },
+        {
+          year: '1991',
+          title: 'Python 0.9.0 Released',
+          subtitle: 'First public release',
+          icon: '🚀',
+          detail: 'Shipped with functions, exception handling, and core types: list, dict, and str.'
+        },
+        {
+          year: 'The Name',
+          title: "Monty Python's Circus",
+          subtitle: 'Not named after a snake!',
+          icon: '🎭',
+          detail: 'Named in honor of the surreal British comedy show "Monty Python\'s Flying Circus".'
+        },
+        {
+          year: 'Today',
+          title: 'Global Phenomenon',
+          subtitle: '#1 Language worldwide',
+          icon: '🌐',
+          detail: 'Powers AI, Data Science, Web, Automation, Testing, and Cloud Backend Infrastructure.'
+        }
+      ];
+
+      const domains = [
+        { name: 'AI & Machine Learning', icon: '🤖' },
+        { name: 'Data Science', icon: '📊' },
+        { name: 'Web Development', icon: '🌐' },
+        { name: 'Automation & Scripting', icon: '⚡' },
+        { name: 'Testing & QA', icon: '🧪' },
+        { name: 'Backend Services', icon: '🖥️' }
+      ];
+
+      let html = `
       <div class="history-stage">
         <!-- Milestone Track -->
         <div class="timeline-track">
@@ -161,15 +161,15 @@
       </div>
     `;
 
-    this.canvas.innerHTML = html;
-  }
+      this.canvas.innerHTML = html;
+    }
 
-  // 1.2 What is Python File Runner
-  renderFileRunner(state) {
-    this.clear();
-    const stage = state.stage || 0; // 0: file, 1: running, 2: output, 3: extensions
+    // 1.2 What is Python File Runner
+    renderFileRunner(state) {
+      this.clear();
+      const stage = state.stage || 0; // 0: file, 1: running, 2: output, 3: extensions
 
-    let html = `
+      let html = `
       <div class="file-runner-stage">
         <div class="runner-left-file ${stage >= 0 ? 'highlight-file' : ''}">
           <div class="file-header">
@@ -225,130 +225,130 @@
       ` : ''}
     `;
 
-    this.canvas.innerHTML = html;
-  }
+      this.canvas.innerHTML = html;
+    }
 
-  // 1.3 Why Learn Python Grid
-  renderWhyPython(state) {
-    this.clear();
-    const activeIndex = state.activeIndex !== undefined ? state.activeIndex : -1;
+    // 1.3 Why Learn Python Grid
+    renderWhyPython(state) {
+      this.clear();
+      const activeIndex = state.activeIndex !== undefined ? state.activeIndex : -1;
 
-    const cards = [
-      {
-        icon: '🌱',
-        title: 'Beginner-Friendly',
-        desc: 'Clean, readable syntax that mirrors plain English with minimal boilerplate.'
-      },
-      {
-        icon: '💼',
-        title: 'Used in Many Industries',
-        desc: 'Adopted across top tech giants, startups, finance, science, and healthcare.'
-      },
-      {
-        icon: '✍️',
-        title: 'Simple & Clean Syntax',
-        desc: 'Code looks clear and understandable so you focus on problem-solving.'
-      },
-      {
-        icon: '📦',
-        title: 'Many Libraries (500k+)',
-        desc: 'Massive ecosystem on PyPI with pre-built packages for every domain.'
-      },
-      {
-        icon: '⚡',
-        title: 'Good for Automation',
-        desc: 'Automate repetitive tasks, file processing, and scripts in just a few lines.'
-      },
-      {
-        icon: '🤖',
-        title: 'AI, Data Science & Backend',
-        desc: 'Industry standard for Machine Learning, Data Analytics, and web backends.'
-      }
-    ];
+      const cards = [
+        {
+          icon: '🌱',
+          title: 'Beginner-Friendly',
+          desc: 'Clean, readable syntax that mirrors plain English with minimal boilerplate.'
+        },
+        {
+          icon: '💼',
+          title: 'Used in Many Industries',
+          desc: 'Adopted across top tech giants, startups, finance, science, and healthcare.'
+        },
+        {
+          icon: '✍️',
+          title: 'Simple & Clean Syntax',
+          desc: 'Code looks clear and understandable so you focus on problem-solving.'
+        },
+        {
+          icon: '📦',
+          title: 'Many Libraries (500k+)',
+          desc: 'Massive ecosystem on PyPI with pre-built packages for every domain.'
+        },
+        {
+          icon: '⚡',
+          title: 'Good for Automation',
+          desc: 'Automate repetitive tasks, file processing, and scripts in just a few lines.'
+        },
+        {
+          icon: '🤖',
+          title: 'AI, Data Science & Backend',
+          desc: 'Industry standard for Machine Learning, Data Analytics, and web backends.'
+        }
+      ];
 
-    let html = `
+      let html = `
       <div class="why-python-stage">
         <div class="why-grid">
           ${cards.map((c, idx) => {
-            const isFocused = activeIndex === idx || activeIndex === 'all';
-            const isDimmed = activeIndex >= 0 && activeIndex !== idx && activeIndex !== 'all';
-            return `
+        const isFocused = activeIndex === idx || activeIndex === 'all';
+        const isDimmed = activeIndex >= 0 && activeIndex !== idx && activeIndex !== 'all';
+        return `
               <div class="why-card ${isFocused ? 'focused' : ''} ${isDimmed ? 'dimmed' : ''}">
                 <div class="why-card-icon">${c.icon}</div>
                 <div class="why-card-title">${c.title}</div>
                 <div class="why-card-desc">${c.desc}</div>
               </div>
             `;
-          }).join('')}
+      }).join('')}
         </div>
       </div>
     `;
 
-    this.canvas.innerHTML = html;
-  }
+      this.canvas.innerHTML = html;
+    }
 
-  // 1.4 Main Features of Python Matrix
-  renderFeaturesMatrix(state) {
-    this.clear();
-    const activeFeatureIndex = state.activeFeatureIndex !== undefined ? state.activeFeatureIndex : -1;
+    // 1.4 Main Features of Python Matrix
+    renderFeaturesMatrix(state) {
+      this.clear();
+      const activeFeatureIndex = state.activeFeatureIndex !== undefined ? state.activeFeatureIndex : -1;
 
-    const features = [
-      {
-        name: 'Easy Syntax',
-        meaning: 'Python code is clean, concise, and reads almost like English prose.',
-        demo: 'if x > 5: print("Greater!")',
-        icon: '✍️'
-      },
-      {
-        name: 'High-Level',
-        meaning: 'No direct hardware or manual memory management (free from pointers and malloc).',
-        demo: 'Automatic Garbage Collection ♻️',
-        icon: '🚀'
-      },
-      {
-        name: 'Interpreted',
-        meaning: 'Runs code directly via Python interpreter without a separate compilation build step.',
-        demo: 'Instant feedback in REPL',
-        icon: '⚡'
-      },
-      {
-        name: 'Dynamically Typed',
-        meaning: 'Variable types are determined automatically at runtime; no manual type declarations.',
-        demo: 'x = 10 ➔ x = "Python" (Valid!)',
-        icon: '🏷️'
-      },
-      {
-        name: 'Object-Oriented',
-        meaning: 'Everything in Python is an object! Full support for classes and encapsulation.',
-        demo: 'class Car: ... my_car = Car()',
-        icon: '🧱'
-      },
-      {
-        name: 'Cross-Platform',
-        meaning: 'Write once, run on Windows, macOS, Linux, Raspberry Pi, and Cloud containers.',
-        demo: '🪟 Windows | 🍎 macOS | 🐧 Linux',
-        icon: '🌍'
-      },
-      {
-        name: 'Large Library Support',
-        meaning: 'Huge ecosystem of built-in standard modules plus 500,000+ PyPI packages.',
-        demo: 'import math, os, json, requests',
-        icon: '📚'
-      },
-      {
-        name: 'Open-Source',
-        meaning: '100% free to use, modify, distribute, and contribute to via PSF.',
-        demo: 'Open Source License (PSF)',
-        icon: '🔓'
-      }
-    ];
+      const features = [
+        {
+          name: 'Easy Syntax',
+          meaning: 'Python code is clean, concise, and reads almost like English prose.',
+          demo: 'if x > 5: print("Greater!")',
+          icon: '✍️'
+        },
+        {
+          name: 'High-Level',
+          meaning: 'No direct hardware or manual memory management (free from pointers and malloc).',
+          demo: 'Automatic Garbage Collection ♻️',
+          icon: '🚀'
+        },
+        {
+          name: 'Interpreted',
+          meaning: 'Runs code directly via Python interpreter without a separate compilation build step.',
+          demo: 'Instant feedback in REPL',
+          icon: '⚡'
+        },
+        {
+          name: 'Dynamically Typed',
+          meaning: 'Variable types are determined automatically at runtime; no manual type declarations.',
+          demo: 'x = 10 ➔ x = "Python" (Valid!)',
+          icon: '🏷️'
+        },
+        {
+          name: 'Object-Oriented',
+          meaning: 'Everything in Python is an object! Full support for classes and encapsulation.',
+          demo: 'class Car: ... my_car = Car()',
+          icon: '🧱'
+        },
+        {
+          name: 'Cross-Platform',
+          meaning: 'Write once, run on Windows, macOS, Linux, Raspberry Pi, and Cloud containers.',
+          demo: '🪟 Windows | 🍎 macOS | 🐧 Linux',
+          icon: '🌍'
+        },
+        {
+          name: 'Large Library Support',
+          meaning: 'Huge ecosystem of built-in standard modules plus 500,000+ PyPI packages.',
+          demo: 'import math, os, json, requests',
+          icon: '📚'
+        },
+        {
+          name: 'Open-Source',
+          meaning: '100% free to use, modify, distribute, and contribute to via PSF.',
+          demo: 'Open Source License (PSF)',
+          icon: '🔓'
+        }
+      ];
 
-    let html = `
+      let html = `
       <div class="features-stage">
         <div class="features-grid">
           ${features.map((f, idx) => {
-            const isSelected = idx === activeFeatureIndex;
-            return `
+        const isSelected = idx === activeFeatureIndex;
+        return `
               <div class="feature-card ${isSelected ? 'active-feature' : ''}">
                 <div class="feature-top">
                   <span class="feature-icon">${f.icon}</span>
@@ -358,20 +358,20 @@
                 <div class="feature-demo">${f.demo}</div>
               </div>
             `;
-          }).join('')}
+      }).join('')}
         </div>
       </div>
     `;
 
-    this.canvas.innerHTML = html;
-  }
+      this.canvas.innerHTML = html;
+    }
 
-  // 1.5 Python Version Comparison & CLI
-  renderVersionComparison(state) {
-    this.clear();
-    const step = state.step || 0; // 0: comparison, 1: cli typing, 2: cli result
+    // 1.5 Python Version Comparison & CLI
+    renderVersionComparison(state) {
+      this.clear();
+      const step = state.step || 0; // 0: comparison, 1: cli typing, 2: cli result
 
-    let html = `
+      let html = `
       <div class="version-stage">
         <div class="version-comparison-cards">
           <!-- Python 2 -->
@@ -423,52 +423,52 @@
       </div>
     `;
 
-    this.canvas.innerHTML = html;
-  }
+      this.canvas.innerHTML = html;
+    }
 
-  // 1.6 How Python Code Runs (Pipeline)
-  renderPipelineFlow(state) {
-    this.clear();
-    const activeStage = state.activeStage !== undefined ? state.activeStage : -1; // 0 to 3
+    // 1.6 How Python Code Runs (Pipeline)
+    renderPipelineFlow(state) {
+      this.clear();
+      const activeStage = state.activeStage !== undefined ? state.activeStage : -1; // 0 to 3
 
-    const pipelineStages = [
-      {
-        num: '1',
-        title: 'Source Code',
-        sub: 'script.py',
-        desc: 'Human-readable instructions written in plain text (.py file)',
-        icon: '📄'
-      },
-      {
-        num: '2',
-        title: 'Bytecode Compiler',
-        sub: '.pyc / Opcodes',
-        desc: 'Python translates code into platform-independent intermediate bytecode',
-        icon: '⚙️'
-      },
-      {
-        num: '3',
-        title: 'Python Virtual Machine',
-        sub: 'PVM (Runtime Loop)',
-        desc: 'The execution engine that reads bytecode line-by-line and executes it on the CPU',
-        icon: '🖥️'
-      },
-      {
-        num: '4',
-        title: 'Program Output',
-        sub: 'Screen / stdout',
-        desc: 'Results, print statements, and mutations displayed to user',
-        icon: '✨'
-      }
-    ];
+      const pipelineStages = [
+        {
+          num: '1',
+          title: 'Source Code',
+          sub: 'script.py',
+          desc: 'Human-readable instructions written in plain text (.py file)',
+          icon: '📄'
+        },
+        {
+          num: '2',
+          title: 'Bytecode Compiler',
+          sub: '.pyc / Opcodes',
+          desc: 'Python translates code into platform-independent intermediate bytecode',
+          icon: '⚙️'
+        },
+        {
+          num: '3',
+          title: 'Python Virtual Machine',
+          sub: 'PVM (Runtime Loop)',
+          desc: 'The execution engine that reads bytecode line-by-line and executes it on the CPU',
+          icon: '🖥️'
+        },
+        {
+          num: '4',
+          title: 'Program Output',
+          sub: 'Screen / stdout',
+          desc: 'Results, print statements, and mutations displayed to user',
+          icon: '✨'
+        }
+      ];
 
-    let html = `
+      let html = `
       <div class="pipeline-stage-view">
         <div class="pipeline-track-container">
           ${pipelineStages.map((stage, idx) => {
-            const isCompleted = idx < activeStage;
-            const isCurrent = idx === activeStage;
-            return `
+        const isCompleted = idx < activeStage;
+        const isCurrent = idx === activeStage;
+        return `
               <div class="pipeline-step-node ${isCurrent ? 'current' : ''} ${isCompleted ? 'completed' : ''}">
                 <div class="node-circle">
                   <span class="node-icon">${stage.icon}</span>
@@ -485,7 +485,7 @@
                 ` : ''}
               </div>
             `;
-          }).join('')}
+      }).join('')}
         </div>
 
         <div class="pipeline-detail-card">
@@ -500,15 +500,15 @@
       </div>
     `;
 
-    this.canvas.innerHTML = html;
-  }
+      this.canvas.innerHTML = html;
+    }
 
-  // 1.7 Compiler vs Interpreter Basics
-  renderCompilerVsInterpreter(state) {
-    this.clear();
-    const phase = state.phase || 'overview'; // 'overview', 'compiler', 'interpreter', 'comparison'
+    // 1.7 Compiler vs Interpreter Basics
+    renderCompilerVsInterpreter(state) {
+      this.clear();
+      const phase = state.phase || 'overview'; // 'overview', 'compiler', 'interpreter', 'comparison'
 
-    let html = `
+      let html = `
       <div class="comp-vs-interp-stage">
         <!-- Dual Execution Tracks -->
         <div class="tracks-wrapper">
@@ -582,9 +582,9 @@
       </div>
     `;
 
-    this.canvas.innerHTML = html;
+      this.canvas.innerHTML = html;
+    }
   }
-}
 
   global.StageRenderer = StageRenderer;
 })(typeof window !== 'undefined' ? window : globalThis);

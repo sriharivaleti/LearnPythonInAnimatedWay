@@ -37,6 +37,7 @@
 
   let currentTopic = null;
   let completedTopics = JSON.parse(localStorage.getItem('py_anim_completed') || '[]');
+  let collapsedSessions = JSON.parse(localStorage.getItem('py_anim_collapsed_sessions') || '[]');
 
   // Visualizer & Animator Instances
   const stageRenderer = new StageRenderer(stageCanvas, stageSvgOverlay);
@@ -77,11 +78,15 @@
 
     let html = '';
     sessions.forEach(session => {
+      const isCollapsed = collapsedSessions.includes(session.id);
       html += `
-        <div class="session-group">
+        <div class="session-group ${isCollapsed ? 'collapsed' : ''}" data-session-group-id="${session.id}">
           <div class="session-title" data-session-id="${session.id}">
-            <span>📂</span>
-            <span>${session.title}</span>
+            <div class="session-title-left">
+              <span class="session-folder-icon">${isCollapsed ? '📁' : '📂'}</span>
+              <span>${session.title}</span>
+            </div>
+            <span class="session-chevron">${isCollapsed ? '▸' : '▾'}</span>
           </div>
           <ul class="topic-list">
             ${(session.topics || []).map(topic => {
@@ -101,9 +106,33 @@
 
     sidebarNav.innerHTML = html;
 
-    // Attach click listeners
+    // Attach click listeners to session titles (collapse / expand accordion)
+    sidebarNav.querySelectorAll('.session-title').forEach(header => {
+      header.addEventListener('click', () => {
+        const sessionId = header.getAttribute('data-session-id');
+        const group = header.closest('.session-group');
+        const willCollapse = !group.classList.contains('collapsed');
+
+        group.classList.toggle('collapsed', willCollapse);
+
+        const chevron = header.querySelector('.session-chevron');
+        const folder = header.querySelector('.session-folder-icon');
+        if (chevron) chevron.textContent = willCollapse ? '▸' : '▾';
+        if (folder) folder.textContent = willCollapse ? '📁' : '📂';
+
+        if (willCollapse) {
+          if (!collapsedSessions.includes(sessionId)) collapsedSessions.push(sessionId);
+        } else {
+          collapsedSessions = collapsedSessions.filter(id => id !== sessionId);
+        }
+        localStorage.setItem('py_anim_collapsed_sessions', JSON.stringify(collapsedSessions));
+      });
+    });
+
+    // Attach click listeners to topic items
     sidebarNav.querySelectorAll('.topic-item').forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
         const topicId = item.getAttribute('data-topic-id');
         loadTopic(topicId);
       });
@@ -124,6 +153,25 @@
 
     currentTopic = topic;
     window.location.hash = `#${topic.id}`;
+
+    // Ensure parent session group is expanded so the active topic is visible
+    const targetItem = sidebarNav.querySelector(`[data-topic-id="${topic.id}"]`);
+    if (targetItem) {
+      const parentGroup = targetItem.closest('.session-group');
+      if (parentGroup && parentGroup.classList.contains('collapsed')) {
+        parentGroup.classList.remove('collapsed');
+        const header = parentGroup.querySelector('.session-title');
+        if (header) {
+          const chevron = header.querySelector('.session-chevron');
+          const folder = header.querySelector('.session-folder-icon');
+          if (chevron) chevron.textContent = '▾';
+          if (folder) folder.textContent = '📂';
+          const sessionId = header.getAttribute('data-session-id');
+          collapsedSessions = collapsedSessions.filter(id => id !== sessionId);
+          localStorage.setItem('py_anim_collapsed_sessions', JSON.stringify(collapsedSessions));
+        }
+      }
+    }
 
     // Highlight active in sidebar
     sidebarNav.querySelectorAll('.topic-item').forEach(el => {
