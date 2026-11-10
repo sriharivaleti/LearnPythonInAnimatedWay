@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn Python in an Animated Way 🐍✨</title>
+  <meta name="description" content="Master Python visually through interactive, step-by-step animations. Built 100% framework-free for GitHub Pages.">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/animations.css">
+</head>
+<body class="theme-dark">
+  <div class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+      <div class="header-brand">
+        <span class="brand-logo">🐍</span>
+        <div>
+          <h1 class="brand-title">Python Animated</h1>
+          <span class="brand-subtitle">Visual Step-by-Step Learning Engine</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="progress-pill">
+          <span class="progress-label">Progress:</span>
+          <span id="progress-indicator">0 / 0 Completed</span>
+        </div>
+        <button id="theme-toggle-btn" class="icon-btn" title="Toggle Light/Dark Theme">
+          🌓
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Split Screen -->
+    <main class="workspace">
+      <!-- Left Pane: Curriculum & Concept Index -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <span class="sidebar-title">📚 Curriculum</span>
+          <span class="sidebar-badge" id="topic-count-badge">0 Topics</span>
+        </div>
+        <nav class="curriculum-nav" id="curriculum-list">
+          <!-- Dynamically populated from curriculum.js -->
+        </nav>
+      </aside>
+
+      <!-- Right Pane: Animated Explanation & Interactive Stage -->
+      <section class="stage-container">
+        <!-- Topic Header -->
+        <div class="topic-header">
+          <div>
+            <div class="breadcrumb" id="topic-breadcrumb">Select a topic to start</div>
+            <h2 class="topic-title" id="topic-title">Welcome to Python Animated</h2>
+          </div>
+          <div class="topic-badges" id="topic-tags"></div>
+        </div>
+
+        <!-- Concept Synopsis / Narration -->
+        <div class="explanation-box" id="topic-summary">
+          <p>Choose a session from the curriculum on the left or wait for the initial session to be added.</p>
+        </div>
+
+        <!-- Visual Stage (SVG & DOM Animation Canvas) -->
+        <div class="stage-viewport" id="stage-viewport">
+          <div class="stage-backdrop-grid"></div>
+          <div class="stage-canvas" id="stage-canvas">
+            <!-- Animated components render here -->
+          </div>
+          <svg class="stage-svg-overlay" id="stage-svg-overlay"></svg>
+        </div>
+
+        <!-- Playback & Timeline Controls -->
+        <div class="playback-bar">
+          <div class="playback-controls">
+            <button class="ctrl-btn" id="ctrl-first-btn" title="Jump to Start">⏮</button>
+            <button class="ctrl-btn" id="ctrl-prev-btn" title="Step Backward">◀ Step</button>
+            <button class="ctrl-btn primary" id="ctrl-play-btn" title="Play / Pause">▶ Play</button>
+            <button class="ctrl-btn" id="ctrl-next-btn" title="Step Forward">Step ▶</button>
+            <button class="ctrl-btn" id="ctrl-reset-btn" title="Reset Scene">↺ Reset</button>
+          </div>
+
+          <div class="timeline-slider-container">
+            <div class="step-tracker">
+              <span>Step <strong id="current-step-num">0</strong> of <strong id="total-steps-num">0</strong></span>
+              <span id="step-description-text" class="step-desc-text">Ready</span>
+            </div>
+            <div class="timeline-bar-wrapper">
+              <input type="range" id="timeline-slider" min="0" max="0" value="0" step="1">
+            </div>
+          </div>
+
+          <div class="speed-control">
+            <label for="speed-select">Speed:</label>
+            <select id="speed-select" class="speed-select">
+              <option value="0.5">0.5x</option>
+              <option value="1" selected>1.0x</option>
+              <option value="1.5">1.5x</option>
+              <option value="2">2.0x</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bottom Split: Synchronized Code Walker & Live Terminal Output -->
+        <div class="dual-output-grid">
+          <!-- Code Execution Walker -->
+          <div class="code-panel">
+            <div class="panel-header">
+              <span class="panel-icon">💻</span>
+              <span class="panel-title">Python Code Walkthrough</span>
+            </div>
+            <div class="code-editor" id="code-viewer">
+              <pre><code id="code-content">// Code will appear here</code></pre>
+            </div>
+          </div>
+
+          <!-- Virtual Terminal / Internal State Inspector -->
+          <div class="terminal-panel">
+            <div class="panel-header">
+              <span class="panel-icon">📟</span>
+              <span class="panel-title">Internal State & Output</span>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+              <div class="terminal-line placeholder">Visual evaluation output will appear here as steps execute...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Framework-free Scripts -->
+  <script src="./js/engine/animator.js"></script>
+  <script src="./js/visualizers/memory.js"></script>
+  <script src="./js/visualizers/stage-renderer.js"></script>
+  <script src="./js/curriculum.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
+
