@@ -493,6 +493,609 @@ print(f"{language} executes directly via an {engine}!")
           ]
         }
       ]
+    },
+    {
+      id: "session-2",
+      number: 2,
+      title: "2. Environment Setup",
+      description: "Preparing your computer: Python installation, VS Code, Terminal essentials, REPL, script execution, virtual environments, and pip package management.",
+      topics: [
+        {
+          id: "2-1-installing-python",
+          title: "2.1 Installing Python",
+          tags: ["Installation", "Windows", "macOS", "Linux", "PATH"],
+          summary: "The safest way is to download Python from the official Python website (python.org). On Windows, <strong>always tick 'Add python.exe to PATH'</strong> before clicking Install Now. On macOS, run the .pkg installer. On Ubuntu/Debian Linux, install via apt.",
+          code: `# Step 1: Download installer from official website: https://www.python.org/downloads
+# Step 2: On Windows, make sure to check:
+#   [X] Add python.exe to PATH  <-- CRITICAL STEP!
+# Step 3: Click 'Install Now'
+#
+# Terminal check after installation:
+# Windows:
+python --version
+# macOS / Linux:
+python3 --version`,
+          steps: [
+            {
+              activeLine: 1,
+              description: "Windows Installation: Download official installer, check 'Add python.exe to PATH', click Install Now.",
+              terminalOutput: "Downloading Python 3.12 installer for Windows...",
+              visualState: {
+                mode: "install-os",
+                os: "windows"
+              }
+            },
+            {
+              activeLine: 3,
+              description: "CRITICAL WINDOWS STEP: Always tick 'Add python.exe to PATH' so the terminal can find python globally.",
+              terminalOutput: "Verifying PATH environment variable registration...",
+              visualState: {
+                mode: "install-os",
+                os: "windows"
+              }
+            },
+            {
+              activeLine: 8,
+              description: "macOS Installation: Download official .pkg installer from python.org, run package wizard, and verify in Terminal.",
+              terminalOutput: "macOS: Checking /usr/local/bin/python3...",
+              visualState: {
+                mode: "install-os",
+                os: "macos"
+              }
+            },
+            {
+              activeLine: 8,
+              description: "Linux Installation: Run 'sudo apt update && sudo apt install python3 python3-pip python3-venv'.",
+              terminalOutput: "$ sudo apt install python3 python3-pip python3-venv\\nPython 3.12.5 successfully installed!",
+              visualState: {
+                mode: "install-os",
+                os: "linux"
+              }
+            }
+          ]
+        },
+        {
+          id: "2-2-checking-python-version",
+          title: "2.2 Checking Python Version",
+          tags: ["CLI", "Version Check", "Terminal"],
+          summary: "Verify that Python is properly recognized by your terminal. On Windows use <code>python --version</code> or <code>py --version</code>. On macOS and Linux use <code>python3 --version</code>.",
+          code: `# Terminal commands to verify Python version:
+# Windows:
+python --version
+# or Windows Python launcher:
+py --version
+
+# macOS and Linux:
+python3 --version
+
+# Expected output:
+# Python 3.12.5`,
+          steps: [
+            {
+              activeLine: 3,
+              description: "Windows: Run 'python --version' or 'py --version' in Command Prompt or PowerShell.",
+              terminalOutput: "$ python --version\\nPython 3.12.5",
+              visualState: {
+                mode: "version-comparison",
+                activeBranch: "python3",
+                cliCommand: "python --version",
+                cliOutput: "Python 3.12.5"
+              }
+            },
+            {
+              activeLine: 7,
+              description: "macOS / Linux: Run 'python3 --version' in the terminal to invoke Python 3.",
+              terminalOutput: "$ python3 --version\\nPython 3.12.5",
+              visualState: {
+                mode: "version-comparison",
+                activeBranch: "python3",
+                cliCommand: "python3 --version",
+                cliOutput: "Python 3.12.5"
+              }
+            }
+          ]
+        },
+        {
+          id: "2-3-installing-vs-code",
+          title: "2.3 Installing VS Code",
+          tags: ["VS Code", "IDE", "Extensions", "File Naming"],
+          summary: "VS Code is a lightweight, modern code editor. Python itself runs the code, but VS Code makes editing, syntax highlighting, and debugging effortless. Install the official <strong>Python extension by Microsoft</strong> and follow good file naming practices.",
+          code: `# Creating your first Python file in VS Code: hello.py
+print("Hello, World!")
+
+# Ways to run in VS Code:
+# 1. Click ▶ Play button (top right)
+# 2. Right-click editor -> 'Run Python File in Terminal'
+# 3. Open integrated terminal -> python hello.py
+
+# File naming rule:
+# Never name files after built-ins like math.py, random.py, sys.py!
+# Use clean, descriptive names: number_game.py, calculator.py`,
+          steps: [
+            {
+              activeLine: 1,
+              description: "1. Install VS Code and install the official Microsoft Python extension from the Marketplace tab.",
+              terminalOutput: "VS Code Extension: Python (ms-python.python) loaded",
+              visualState: {
+                mode: "vscode-workflow",
+                phase: "extensions"
+              }
+            },
+            {
+              activeLine: 2,
+              description: "2. Create a clean file named 'hello.py' and write print('Hello, World!').",
+              terminalOutput: "hello.py active in VS Code editor buffer",
+              visualState: {
+                mode: "vscode-workflow",
+                phase: "editor"
+              }
+            },
+            {
+              activeLine: 5,
+              description: "3. Run the file using the ▶ Run button or Right-click ➔ 'Run Python File in Terminal'.",
+              terminalOutput: "$ python hello.py\\nHello, World!",
+              visualState: {
+                mode: "vscode-workflow",
+                phase: "run"
+              }
+            },
+            {
+              activeLine: 10,
+              description: "4. File naming caution: Never name scripts math.py, random.py, or sys.py as they shadow Python standard libraries!",
+              terminalOutput: "Rule verified: Avoid built-in name shadowing. Use student_report.py, calculator.py.",
+              visualState: {
+                mode: "vscode-workflow",
+                phase: "editor"
+              }
+            }
+          ]
+        },
+        {
+          id: "2-4-terminal-and-command-line-basics",
+          title: "2.4 Terminal & Command Line Basics",
+          tags: ["Terminal", "CLI", "Navigation", "Commands"],
+          summary: "The terminal or command prompt is where you interact directly with your operating system and run programs. Key commands include checking directory (<code>pwd</code>), listing files (<code>dir</code> / <code>ls</code>), navigating (<code>cd</code>), creating folders (<code>mkdir</code>), and running Python files.",
+          code: `# Terminal Navigation & Execution Cheatsheet:
+# 1. Check current directory: pwd
+# 2. List files: dir (Windows) or ls (macOS/Linux)
+# 3. Make project folder: mkdir python-notes
+# 4. Enter folder: cd python-notes
+# 5. Move back up: cd ..
+# 6. Clear terminal: cls (Windows) or clear (macOS/Linux)
+# 7. Run a script: python app.py (Windows) or python3 app.py (macOS/Linux)
+
+print("Terminal is running Python")`,
+          steps: [
+            {
+              activeLine: 2,
+              description: "pwd (print working directory) shows the exact folder path your terminal is currently focused in.",
+              terminalOutput: "$ pwd\\nC:\\\\Users\\\\Student\\\\project",
+              visualState: {
+                mode: "terminal-cli",
+                currentCmd: "pwd",
+                currentDir: "C:\\\\Users\\\\Student\\\\project"
+              }
+            },
+            {
+              activeLine: 3,
+              description: "dir (Windows) / ls (macOS/Linux) lists all files and directories in the current folder.",
+              terminalOutput: "$ dir\\napp.py   notes.txt   data/",
+              visualState: {
+                mode: "terminal-cli",
+                currentCmd: "dir",
+                currentDir: "C:\\\\Users\\\\Student\\\\project"
+              }
+            },
+            {
+              activeLine: 4,
+              description: "mkdir creates a new directory (e.g. mkdir python-notes).",
+              terminalOutput: "$ mkdir python-notes\\nFolder created: python-notes",
+              visualState: {
+                mode: "terminal-cli",
+                currentCmd: "mkdir python-notes",
+                currentDir: "C:\\\\Users\\\\Student\\\\project"
+              }
+            },
+            {
+              activeLine: 5,
+              description: "cd changes into the target directory (e.g. cd python-notes).",
+              terminalOutput: "$ cd python-notes\\nCurrent path updated to C:\\\\Users\\\\Student\\\\project\\\\python-notes",
+              visualState: {
+                mode: "terminal-cli",
+                currentCmd: "cd python-notes",
+                currentDir: "C:\\\\Users\\\\Student\\\\project\\\\python-notes"
+              }
+            },
+            {
+              activeLine: 6,
+              description: "cd .. navigates one level backward to the parent directory.",
+              terminalOutput: "$ cd ..\\nMoved back to C:\\\\Users\\\\Student\\\\project",
+              visualState: {
+                mode: "terminal-cli",
+                currentCmd: "cd ..",
+                currentDir: "C:\\\\Users\\\\Student\\\\project"
+              }
+            },
+            {
+              activeLine: 7,
+              description: "cls (Windows) / clear (macOS/Linux) clears the terminal screen.",
+              terminalOutput: "[Screen cleared]",
+              visualState: {
+                mode: "terminal-cli",
+                currentCmd: "cls",
+                currentDir: "C:\\\\Users\\\\Student\\\\project"
+              }
+            },
+            {
+              activeLine: 8,
+              description: "Execute Python script from terminal: python app.py or python3 app.py.",
+              terminalOutput: "$ python app.py\\nTerminal is running Python",
+              visualState: {
+                mode: "terminal-cli",
+                currentCmd: "python app.py",
+                currentDir: "C:\\\\Users\\\\Student\\\\project"
+              }
+            }
+          ]
+        },
+        {
+          id: "2-5-python-interpreter",
+          title: "2.5 Python Interpreter",
+          tags: ["Interpreter", "Execution Flow", "CPython"],
+          summary: "The Python interpreter is the engine that reads and runs Python code. Computers only understand machine language (binary bits 0 & 1). When you write <code>print('Hello')</code>, the Python interpreter translates human code into bytecode and runs it on the CPU.",
+          code: `# The Python Interpreter in Action
+# Python Code -> Interpreter Translation -> CPU Output
+
+message = "Hello, Python"
+print(message)
+
+# The interpreter reads line by line, compiles to bytecode,
+# and executes instructions via the Python Virtual Machine (PVM).`,
+          steps: [
+            {
+              activeLine: 4,
+              description: "Step 1: Human-readable Python code is saved in app.py.",
+              terminalOutput: "Source code ready: print('Hello, Python')",
+              visualState: {
+                mode: "interpreter-stream",
+                stage: 0
+              }
+            },
+            {
+              activeLine: 5,
+              description: "Step 2: Python interpreter reads source code, parses syntax, compiles to bytecode, and evaluates instructions.",
+              terminalOutput: "Python interpreter parsing code into internal bytecode instructions...",
+              visualState: {
+                mode: "interpreter-stream",
+                stage: 1
+              }
+            },
+            {
+              activeLine: 5,
+              description: "Step 3: Program output is printed to the console: 'Hello, Python'.",
+              terminalOutput: "$ python app.py\\nHello, Python",
+              visualState: {
+                mode: "interpreter-stream",
+                stage: 2
+              }
+            }
+          ]
+        },
+        {
+          id: "2-6-python-repl",
+          title: "2.6 Python REPL",
+          tags: ["REPL", "Interactive Shell", "CLI"],
+          summary: "REPL stands for <strong>Read - Evaluate - Print - Loop</strong>. It allows you to run Python statements interactively line by line without saving files. Ideal for testing short calculations, checking syntax, and rapid experimentation.",
+          code: `# Opening REPL:
+# Windows: python or py
+# macOS/Linux: python3
+# Prompt appears: >>>
+
+# Example interactive session:
+>>> 10 + 20
+30
+>>> print("Hello")
+Hello
+>>> name = "Aman"
+>>> name
+'Aman'
+>>> exit()  # or Ctrl+Z Enter (Win) / Ctrl+D (Mac/Linux)`,
+          steps: [
+            {
+              activeLine: 7,
+              description: "1. Read: Interpreter reads expression '10 + 20' typed at the >>> prompt.",
+              terminalOutput: ">>> 10 + 20",
+              visualState: {
+                mode: "repl-interactive",
+                activePhase: "R",
+                currentPrompt: "10 + 20",
+                replLines: []
+              }
+            },
+            {
+              activeLine: 8,
+              description: "2. Evaluate & Print: Evaluates math to 30, prints 30, and loops back for next command.",
+              terminalOutput: ">>> 10 + 20\\n30",
+              visualState: {
+                mode: "repl-interactive",
+                activePhase: "P",
+                currentPrompt: "",
+                replLines: [
+                  { cmd: "10 + 20", out: "30" }
+                ]
+              }
+            },
+            {
+              activeLine: 9,
+              description: "3. Evaluate print function: Displays string message 'Hello'.",
+              terminalOutput: ">>> print('Hello')\\nHello",
+              visualState: {
+                mode: "repl-interactive",
+                activePhase: "E",
+                currentPrompt: "",
+                replLines: [
+                  { cmd: "10 + 20", out: "30" },
+                  { cmd: "print(\"Hello\")", out: "Hello" }
+                ]
+              }
+            },
+            {
+              activeLine: 11,
+              description: "4. Variable inspection: Assign name = 'Aman', then evaluate name to see 'Aman'.",
+              terminalOutput: ">>> name = 'Aman'\\n>>> name\\n'Aman'",
+              visualState: {
+                mode: "repl-interactive",
+                activePhase: "L",
+                currentPrompt: "exit()",
+                replLines: [
+                  { cmd: "10 + 20", out: "30" },
+                  { cmd: "print(\"Hello\")", out: "Hello" },
+                  { cmd: "name = \"Aman\"", out: "" },
+                  { cmd: "name", out: "'Aman'" }
+                ]
+              }
+            },
+            {
+              activeLine: 14,
+              description: "Exiting REPL: Call exit() or press Ctrl+Z + Enter (Windows) or Ctrl+D (macOS/Linux).",
+              terminalOutput: "Exited Python REPL back to system shell.",
+              visualState: {
+                mode: "repl-interactive",
+                activePhase: "L",
+                currentPrompt: "",
+                replLines: [
+                  { cmd: "10 + 20", out: "30" },
+                  { cmd: "print(\"Hello\")", out: "Hello" },
+                  { cmd: "name = \"Aman\"", out: "" },
+                  { cmd: "name", out: "'Aman'" },
+                  { cmd: "exit()", out: "[Exited REPL]" }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          id: "2-7-creating-and-running-py-files",
+          title: "2.7 Creating & Running .py Files",
+          tags: ["Scripts", "Execution Order", "Best Practices"],
+          summary: "Python files use the <code>.py</code> extension. Python executes statements sequentially from top to bottom. Remember best practices: always save before running, use lowercase underscores, avoid spaces in filenames, and avoid <code>hello.py.txt</code>.",
+          code: `# Python executes from top to bottom sequentially:
+print("Start")
+name = "Nishchal"
+print("Name:", name)
+print("End")
+
+# Output:
+# Start
+# Name: Nishchal
+# End`,
+          steps: [
+            {
+              activeLine: 2,
+              description: "Line 1: Executes print('Start') -> outputs 'Start'.",
+              terminalOutput: "Start",
+              visualState: {
+                mode: "file-lifecycle",
+                currentLine: 1
+              }
+            },
+            {
+              activeLine: 3,
+              description: "Line 2: Allocates variable 'name' with string value 'Nishchal' in memory.",
+              terminalOutput: "Variable stored: name = 'Nishchal'",
+              visualState: {
+                mode: "file-lifecycle",
+                currentLine: 2
+              }
+            },
+            {
+              activeLine: 4,
+              description: "Line 3: Evaluates print('Name:', name) -> outputs 'Name: Nishchal'.",
+              terminalOutput: "Start\\nName: Nishchal",
+              visualState: {
+                mode: "file-lifecycle",
+                currentLine: 3
+              }
+            },
+            {
+              activeLine: 5,
+              description: "Line 4: Executes print('End') -> outputs 'End'. Script execution finishes.",
+              terminalOutput: "Start\\nName: Nishchal\\nEnd\\n[Process completed]",
+              visualState: {
+                mode: "file-lifecycle",
+                currentLine: 4
+              }
+            }
+          ]
+        },
+        {
+          id: "2-8-virtual-environments-using-venv",
+          title: "2.8 Virtual Environments (venv)",
+          tags: ["venv", "Isolation", "Dependencies"],
+          summary: "A virtual environment is an isolated directory tree that contains a specific Python installation plus independent third-party packages. It prevents dependency conflicts when Project A requires an older version of a package while Project B requires a newer version.",
+          code: `# Creating a Virtual Environment:
+python -m venv myenv
+
+# Activating the Virtual Environment:
+# Windows (Command Prompt):
+myenv\\Scripts\\activate
+# Windows (PowerShell):
+myenv\\Scripts\\Activate.ps1
+# macOS / Linux:
+source myenv/bin/activate
+
+# Prompt changes to: (myenv) C:\\project>
+
+# Deactivating when finished:
+deactivate`,
+          steps: [
+            {
+              activeLine: 2,
+              description: "The Conflict Problem: Without venv, installing package version for Project B overwrites Project A's requirements.",
+              terminalOutput: "Global environment collision: requests 1.0.0 vs requests 2.32.3!",
+              visualState: {
+                mode: "venv-isolation",
+                showIsolation: false
+              }
+            },
+            {
+              activeLine: 2,
+              description: "Create venv: Run 'python -m venv myenv' to build isolated container.",
+              terminalOutput: "$ python -m venv myenv\\nCreating isolated virtual environment folder 'myenv'...",
+              visualState: {
+                mode: "venv-isolation",
+                showIsolation: true
+              }
+            },
+            {
+              activeLine: 6,
+              description: "Activate venv: Run activation script for your OS. Terminal prompt prepends '(myenv)'.",
+              terminalOutput: "$ myenv\\\\Scripts\\\\activate\\n(myenv) C:\\\\project>",
+              visualState: {
+                mode: "venv-isolation",
+                showIsolation: true
+              }
+            },
+            {
+              activeLine: 15,
+              description: "Deactivate: Type 'deactivate' to exit back to the global environment safely.",
+              terminalOutput: "(myenv) C:\\\\project> deactivate\\nC:\\\\project>",
+              visualState: {
+                mode: "venv-isolation",
+                showIsolation: true
+              }
+            }
+          ]
+        },
+        {
+          id: "2-9-installing-packages-using-pip",
+          title: "2.9 Installing Packages Using pip",
+          tags: ["pip", "PyPI", "Package Manager"],
+          summary: "<code>pip</code> is the package installer for Python, downloading packages from PyPI (Python Package Index). Best practice is to run <code>python -m pip install &lt;package&gt;</code> to ensure packages are installed to the exact active interpreter.",
+          code: `# Recommended Best Practice:
+python -m pip install requests
+
+# Checking installed packages:
+pip list
+
+# Inspecting package details:
+pip show requests
+
+# Uninstalling packages:
+pip uninstall requests -y
+
+# Popular packages: requests, pandas, numpy, flask, django, pytest`,
+          steps: [
+            {
+              activeLine: 2,
+              description: "PyPI Ecosystem: Access over 500,000+ open-source libraries published on pypi.org.",
+              terminalOutput: "Browsing PyPI package index...",
+              visualState: {
+                mode: "pip-package-hub",
+                activePkg: null
+              }
+            },
+            {
+              activeLine: 2,
+              description: "Install requests: python -m pip install requests (for HTTP & REST API calls).",
+              terminalOutput: "$ python -m pip install requests\\nCollecting requests\\nSuccessfully installed requests-2.32.3",
+              visualState: {
+                mode: "pip-package-hub",
+                activePkg: "requests"
+              }
+            },
+            {
+              activeLine: 11,
+              description: "Install pandas & numpy: Data analysis, tabular data manipulation, and scientific numerical computing.",
+              terminalOutput: "$ python -m pip install pandas numpy\\nSuccessfully installed pandas-2.2.2 numpy-2.0.1",
+              visualState: {
+                mode: "pip-package-hub",
+                activePkg: "pandas"
+              }
+            },
+            {
+              activeLine: 5,
+              description: "Inspect with pip list & pip show: View installed packages and specific version metadata.",
+              terminalOutput: "$ pip list\\nPackage    Version\\n---------- -------\\npandas     2.2.2\\nnumpy      2.0.1\\nrequests   2.32.3",
+              visualState: {
+                mode: "pip-package-hub",
+                activePkg: "numpy"
+              }
+            }
+          ]
+        },
+        {
+          id: "2-10-requirements-txt",
+          title: "2.10 requirements.txt",
+          tags: ["requirements.txt", "pip freeze", "Deployment", "Reproducibility"],
+          summary: "<code>requirements.txt</code> records your project's dependencies with pinned versions. This allows teammates or cloud production servers to duplicate the exact identical environment using <code>pip install -r requirements.txt</code>.",
+          code: `# 1. Export all installed packages in current venv:
+pip freeze > requirements.txt
+
+# 2. Inside requirements.txt:
+# requests==2.32.3
+# pandas==2.2.2
+# numpy==2.0.1
+
+# 3. Teammate/Server installs all dependencies with one command:
+pip install -r requirements.txt
+
+# Clean Project Layout:
+# my_project/
+# ├── app.py
+# ├── requirements.txt
+# └── venv/`,
+          steps: [
+            {
+              activeLine: 2,
+              description: "1. Export dependencies: Run 'pip freeze > requirements.txt' to generate the pinned version list.",
+              terminalOutput: "$ pip freeze > requirements.txt\\nExported 3 packages to requirements.txt",
+              visualState: {
+                mode: "requirements-lifecycle",
+                phase: "freeze"
+              }
+            },
+            {
+              activeLine: 5,
+              description: "2. Share with team: Commit requirements.txt to Git. (Never commit the venv folder itself!)",
+              terminalOutput: "requirements.txt committed to Git repository",
+              visualState: {
+                mode: "requirements-lifecycle",
+                phase: "file"
+              }
+            },
+            {
+              activeLine: 10,
+              description: "3. Replicate environment: Run 'pip install -r requirements.txt' on any new machine.",
+              terminalOutput: "$ pip install -r requirements.txt\\nInstalling requests, pandas, numpy...\\nEnvironment successfully replicated!",
+              visualState: {
+                mode: "requirements-lifecycle",
+                phase: "install"
+              }
+            }
+          ]
+        }
+      ]
     }
   ];
 

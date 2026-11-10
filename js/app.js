@@ -90,15 +90,15 @@
           </div>
           <ul class="topic-list">
             ${(session.topics || []).map(topic => {
-              const isCompleted = completedTopics.includes(topic.id);
-              const isActive = currentTopic && currentTopic.id === topic.id;
-              return `
+        const isCompleted = completedTopics.includes(topic.id);
+        const isActive = currentTopic && currentTopic.id === topic.id;
+        return `
                 <li class="topic-item ${isActive ? 'active' : ''}" data-topic-id="${topic.id}">
                   <span class="topic-status-icon">${isCompleted ? '✅' : '⚪'}</span>
                   <span>${topic.title}</span>
                 </li>
               `;
-            }).join('')}
+      }).join('')}
           </ul>
         </div>
       `;
@@ -372,6 +372,8 @@
   // Expose global methods for external topic registration
   window.App = {
     loadTopic,
+    animator,
+    stageRenderer,
     refreshCurriculum: () => {
       renderSidebar();
       const allTopics = CurriculumStore.getAllTopics();

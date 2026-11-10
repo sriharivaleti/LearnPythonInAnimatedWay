@@ -65,6 +65,33 @@
         case 'compiler-vs-interpreter':
           this.renderCompilerVsInterpreter(visualState);
           break;
+        case 'install-os':
+          this.renderInstallOS(visualState);
+          break;
+        case 'vscode-workflow':
+          this.renderVSCodeWorkflow(visualState);
+          break;
+        case 'terminal-cli':
+          this.renderTerminalCLI(visualState);
+          break;
+        case 'interpreter-stream':
+          this.renderInterpreterStream(visualState);
+          break;
+        case 'repl-interactive':
+          this.renderREPLInteractive(visualState);
+          break;
+        case 'file-lifecycle':
+          this.renderFileLifecycle(visualState);
+          break;
+        case 'venv-isolation':
+          this.renderVenvIsolation(visualState);
+          break;
+        case 'pip-package-hub':
+          this.renderPipPackageHub(visualState);
+          break;
+        case 'requirements-lifecycle':
+          this.renderRequirementsLifecycle(visualState);
+          break;
         case 'memory':
         default:
           this.memoryVisualizer.renderState(visualState);
@@ -581,6 +608,525 @@
         </div>
       </div>
     `;
+
+      this.canvas.innerHTML = html;
+    }
+
+    // 2.1 OS Installer Visualizer
+    renderInstallOS(state) {
+      this.clear();
+      const os = state.os || 'windows';
+
+      let html = `
+        <div class="installer-stage">
+          <div class="os-tab-bar">
+            <div class="os-tab ${os === 'windows' ? 'active' : ''}">🪟 Windows</div>
+            <div class="os-tab ${os === 'macos' ? 'active' : ''}">🍎 macOS</div>
+            <div class="os-tab ${os === 'linux' ? 'active' : ''}">🐧 Linux</div>
+          </div>
+
+          ${os === 'windows' ? `
+            <div class="installer-window">
+              <div class="installer-title-row">
+                <span class="installer-icon">🐍</span>
+                <div>
+                  <div class="installer-header-text">Python 3.12.5 (64-bit) Setup</div>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">Select Install Now to install with standard settings</div>
+                </div>
+              </div>
+              <div class="installer-body">
+                <div class="btn-install-now">
+                  <span style="font-size: 1.3rem;">⚡</span>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9rem;">Install Now</div>
+                    <div style="font-size: 0.68rem; opacity: 0.85;">C:\\Users\\Student\\AppData\\Local\\Programs\\Python\\Python312</div>
+                  </div>
+                </div>
+
+                <div class="path-checkbox-box">
+                  <span class="path-alert-pill">CRITICAL STEP</span>
+                  <input type="checkbox" id="path-check" checked disabled>
+                  <label for="path-check" class="path-label">☑ Add python.exe to PATH</label>
+                </div>
+                <div style="font-size: 0.72rem; color: #fbbf24;">
+                  ⚠️ <strong>Must be ticked:</strong> This registers Python globally so Command Prompt & PowerShell can run <code>python</code>!
+                </div>
+              </div>
+            </div>
+          ` : ''}
+
+          ${os === 'macos' ? `
+            <div class="installer-window">
+              <div class="installer-title-row">
+                <span class="installer-icon">🍎</span>
+                <div>
+                  <div class="installer-header-text">Install Python 3 on macOS</div>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">Official .pkg Installer from python.org</div>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem;">
+                <div style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 4px; border-left: 3px solid var(--accent-cyan);">
+                  <strong>1. Download:</strong> Get latest macOS 64-bit installer from <code>python.org/downloads</code>
+                </div>
+                <div style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 4px; border-left: 3px solid var(--accent-cyan);">
+                  <strong>2. Run .pkg:</strong> Double-click installer and follow guided steps
+                </div>
+                <div style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 4px; border-left: 3px solid var(--accent-green);">
+                  <strong>3. Verify in Terminal:</strong> Run <code>python3 --version</code>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+
+          ${os === 'linux' ? `
+            <div class="installer-window">
+              <div class="installer-title-row">
+                <span class="installer-icon">🐧</span>
+                <div>
+                  <div class="installer-header-text">Install Python 3 on Ubuntu / Debian Linux</div>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">Terminal Package Manager (APT)</div>
+                </div>
+              </div>
+              <div class="cli-window" style="background: #090d16; border-radius: 6px; padding: 0.75rem;">
+                <div style="color: var(--text-dim); margin-bottom: 0.25rem;"># Update repositories and install Python 3 stack:</div>
+                <div style="color: var(--accent-green);"><span style="color: var(--text-muted);">$</span> sudo apt update</div>
+                <div style="color: var(--accent-green); margin-top: 0.25rem;"><span style="color: var(--text-muted);">$</span> sudo apt install python3 python3-pip python3-venv</div>
+                <div style="color: #38bdf8; margin-top: 0.5rem;"><span style="color: var(--text-muted);">$</span> python3 --version</div>
+                <div style="color: #fbbf24; font-weight: 700;">Python 3.12.5</div>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      this.canvas.innerHTML = html;
+    }
+
+    // 2.3 VS Code Workflow Visualizer
+    renderVSCodeWorkflow(state) {
+      this.clear();
+      const phase = state.phase || 'editor';
+
+      let html = `
+        <div class="vscode-stage">
+          <div class="vscode-mock-window">
+            <div class="vscode-activity-bar">
+              <span class="activity-icon">📄</span>
+              <span class="activity-icon">🔍</span>
+              <span class="activity-icon">🌿</span>
+              <span class="activity-icon ${phase === 'extensions' ? 'active' : ''}">🧩</span>
+              <span class="activity-icon">⚙️</span>
+            </div>
+
+            <div class="vscode-main-area">
+              <div class="vscode-editor-tabs">
+                <div class="editor-tab">
+                  <span>🐍</span>
+                  <span>hello.py</span>
+                </div>
+                <button class="run-code-btn" title="Run Python File in Terminal">
+                  <span>▶</span>
+                  <span>Run</span>
+                </button>
+              </div>
+
+              <div class="vscode-code-canvas">
+                <div style="color: var(--text-dim); font-size: 0.72rem;"># hello.py - Created in VS Code</div>
+                <div style="color: #f8fafc; margin-top: 0.35rem;">
+                  <span style="color: #ffd43b;">print</span>(<span style="color: #34d399;">"Hello, World!"</span>)
+                </div>
+
+                ${phase === 'run' ? `
+                  <div style="margin-top: 0.85rem; background: #0b0f19; border: 1px solid var(--border-color); border-radius: 4px; padding: 0.5rem;">
+                    <div style="font-size: 0.68rem; color: var(--text-dim); border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.2rem; margin-bottom: 0.3rem;">TERMINAL</div>
+                    <div style="color: var(--text-muted); font-size: 0.75rem;">$ python hello.py</div>
+                    <div style="color: #34d399; font-weight: 700; font-size: 0.8rem; margin-top: 0.2rem;">Hello, World!</div>
+                  </div>
+                ` : `
+                  <div style="margin-top: 1rem; color: var(--text-dim); font-size: 0.72rem;">
+                    💡 Run methods: 1) Click ▶ Run button  2) Right-click ➔ 'Run Python File in Terminal'  3) Terminal command
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+
+          <div class="vscode-naming-rules-bar">
+            <span class="name-rule-pill bad">❌ Bad: math.py, random.py, sys.py (conflicts with built-in modules!)</span>
+            <span class="name-rule-pill good">✅ Good: number_game.py, student_report.py, calculator.py</span>
+          </div>
+        </div>
+      `;
+
+      this.canvas.innerHTML = html;
+    }
+
+    // 2.4 Terminal & Command Line Basics
+    renderTerminalCLI(state) {
+      this.clear();
+      const currentCmd = state.currentCmd || 'pwd';
+      const currentDir = state.currentDir || 'C:\\Users\\Student\\project';
+
+      const commands = [
+        { task: 'Check current folder', win: 'pwd', unix: 'pwd', desc: 'Shows current folder path' },
+        { task: 'List files and folders', win: 'dir', unix: 'ls', desc: 'Lists all items inside folder' },
+        { task: 'Create folder', win: 'mkdir python-notes', unix: 'mkdir python-notes', desc: 'Creates new folder' },
+        { task: 'Change folder', win: 'cd python-notes', unix: 'cd python-notes', desc: 'Navigates into folder' },
+        { task: 'Go back one level', win: 'cd ..', unix: 'cd ..', desc: 'Moves up to parent folder' },
+        { task: 'Clear screen', win: 'cls', unix: 'clear', desc: 'Clears terminal screen' },
+        { task: 'Run Python script', win: 'python app.py', unix: 'python3 app.py', desc: 'Executes Python program' }
+      ];
+
+      let html = `
+        <div class="terminal-cli-stage">
+          <div class="cli-breadcrumbs-bar">
+            <span>📁 Location:</span>
+            <strong>${currentDir}</strong>
+          </div>
+
+          <div class="comparison-matrix-card" style="max-height: 200px; overflow-y: auto;">
+            <table class="cli-cheatsheet-table">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Windows (CMD/PS)</th>
+                  <th>macOS / Linux</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${commands.map(c => `
+                  <tr class="${currentCmd === c.win || currentCmd === c.unix ? 'active-cli-row' : ''}">
+                    <td>${c.task}</td>
+                    <td><code>${c.win}</code></td>
+                    <td><code>${c.unix}</code></td>
+                    <td>${c.desc}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+
+      this.canvas.innerHTML = html;
+    }
+
+    // 2.5 Python Interpreter Stream
+    renderInterpreterStream(state) {
+      this.clear();
+      const stage = state.stage || 0; // 0: code, 1: interpreter, 2: output
+
+      let html = `
+        <div class="file-runner-stage">
+          <div class="runner-left-file ${stage >= 0 ? 'highlight-file' : ''}">
+            <div class="file-header">
+              <span class="file-badge">📄 Python Source</span>
+              <span class="file-name">app.py</span>
+            </div>
+            <div class="file-code-preview">
+              <span class="code-comment"># Code humans write</span>
+              <span class="code-exec"><span class="func">print</span>(<span class="str">"Hello, Python"</span>)</span>
+            </div>
+          </div>
+
+          <div class="runner-middle-channel">
+            <div class="flow-arrow-container ${stage >= 1 ? 'flowing' : ''}">
+              <span class="flow-label">Python Interpreter</span>
+              <div class="flow-particle-stream">
+                <span class="particle">⚙️</span>
+                <span class="particle">⚡</span>
+                <span class="particle">⚙️</span>
+              </div>
+              <div style="font-size: 0.65rem; color: var(--text-dim); text-align: center; margin-top: 0.2rem;">
+                Reads line-by-line & executes on CPU
+              </div>
+            </div>
+          </div>
+
+          <div class="runner-right-console ${stage >= 2 ? 'active-output' : ''}">
+            <div class="console-header">
+              <span class="console-dot green"></span>
+              <span class="console-title">Output</span>
+            </div>
+            <div class="console-screen">
+              <div class="screen-prompt">$ python app.py</div>
+              ${stage >= 2 ? `
+                <div class="screen-result">Hello, Python</div>
+              ` : `
+                <div class="screen-idle">Interpreter evaluating...</div>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+
+      this.canvas.innerHTML = html;
+    }
+
+    // 2.6 REPL Visualizer
+    renderREPLInteractive(state) {
+      this.clear();
+      const activePhase = state.activePhase || 'R'; // R, E, P, L
+
+      let html = `
+        <div class="repl-stage">
+          <div class="repl-cycle-row">
+            <div class="repl-cycle-badge ${activePhase === 'R' ? 'active' : ''}">
+              <span class="letter">R</span>
+              <span>Read</span>
+            </div>
+            <span style="color: var(--text-dim);">➔</span>
+            <div class="repl-cycle-badge ${activePhase === 'E' ? 'active' : ''}">
+              <span class="letter">E</span>
+              <span>Evaluate</span>
+            </div>
+            <span style="color: var(--text-dim);">➔</span>
+            <div class="repl-cycle-badge ${activePhase === 'P' ? 'active' : ''}">
+              <span class="letter">P</span>
+              <span>Print</span>
+            </div>
+            <span style="color: var(--text-dim);">➔</span>
+            <div class="repl-cycle-badge ${activePhase === 'L' ? 'active' : ''}">
+              <span class="letter">L</span>
+              <span>Loop</span>
+            </div>
+          </div>
+
+          <div class="repl-window">
+            <div style="color: var(--text-dim); font-size: 0.72rem; margin-bottom: 0.4rem;">
+              Python 3.12.5 interactive shell (Type "exit()" or Ctrl+Z Enter to exit)
+            </div>
+            ${(state.replLines || []).map(line => `
+              <div class="repl-line"><span class="prompt">&gt;&gt;&gt;</span> ${line.cmd}</div>
+              ${line.out ? `<div class="repl-output">${line.out}</div>` : ''}
+            `).join('')}
+            ${state.currentPrompt ? `
+              <div class="repl-line"><span class="prompt">&gt;&gt;&gt;</span> ${state.currentPrompt}<span class="cli-cursor"></span></div>
+            ` : `
+              <div class="repl-line"><span class="prompt">&gt;&gt;&gt;</span> <span class="cli-cursor"></span></div>
+            `}
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; justify-content: space-around; font-size: 0.72rem; color: var(--text-muted);">
+            <span>⚡ <strong>REPL:</strong> Fast experiments, line-by-line, not saved to disk</span>
+            <span>💾 <strong>.py File:</strong> Permanent programs, reusable projects</span>
+          </div>
+        </div>
+      `;
+
+      this.canvas.innerHTML = html;
+    }
+
+    // 2.7 File Lifecycle & Top-to-Bottom Execution
+    renderFileLifecycle(state) {
+      this.clear();
+      const currentLine = state.currentLine || 1;
+
+      const lines = [
+        { num: 1, text: 'print("Start")', output: 'Start' },
+        { num: 2, text: 'name = "Nishchal"', output: null },
+        { num: 3, text: 'print("Name:", name)', output: 'Name: Nishchal' },
+        { num: 4, text: 'print("End")', output: 'End' }
+      ];
+
+      let html = `
+        <div class="vscode-stage">
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem;">
+            <!-- Code Scanner -->
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.75rem; font-family: var(--font-mono); font-size: 0.8rem;">
+              <div style="color: var(--text-dim); font-size: 0.7rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.25rem; margin-bottom: 0.5rem;">
+                📄 script.py — Top-to-Bottom Execution Flow
+              </div>
+              ${lines.map(l => `
+                <div class="code-line ${currentLine === l.num ? 'active' : ''}" style="padding: 0.2rem 0.4rem;">
+                  <span class="line-num">${l.num}</span>
+                  <span class="line-content">${l.text}</span>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- Traps & Best Practices -->
+            <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.72rem;">
+              <div style="background: rgba(244, 63, 94, 0.1); border: 1px solid var(--accent-rose); padding: 0.4rem 0.6rem; border-radius: 4px; color: #fecdd3;">
+                <strong>⚠️ Avoid Common Traps:</strong>
+                <div>• Never save as <code>hello.py.txt</code></div>
+                <div>• No spaces in names: <code>my file.py</code> ❌</div>
+                <div>• Always save (Ctrl+S) before running</div>
+              </div>
+
+              <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid var(--accent-green); padding: 0.4rem 0.6rem; border-radius: 4px; color: #bbf7d0;">
+                <strong>✅ Best Practices:</strong>
+                <div>• Use lowercase with underscores: <code>first_script.py</code></div>
+                <div>• One project per folder</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      this.canvas.innerHTML = html;
+    }
+
+    // 2.8 Virtual Environment (venv) Isolation
+    renderVenvIsolation(state) {
+      this.clear();
+      const showIsolation = state.showIsolation !== undefined ? state.showIsolation : true;
+
+      let html = `
+        <div class="venv-stage">
+          <div class="venv-global-bar">
+            <span>💻 Global System Python (v3.12)</span>
+            ${showIsolation ? `
+              <span style="color: var(--accent-green); font-weight: 700;">✅ Protected: Projects Isolated in venvs</span>
+            ` : `
+              <span class="venv-conflict-warning">⚠️ Global Package Conflict Danger!</span>
+            `}
+          </div>
+
+          <div class="venv-projects-grid">
+            <!-- Project A Bubble -->
+            <div class="venv-bubble-card">
+              <div class="venv-bubble-header">
+                <span>📁 Project A (venv)</span>
+                <span class="badge py-version">Isolated</span>
+              </div>
+              <div class="venv-pkg-list">
+                <div class="venv-pkg-item">
+                  <span>requests</span>
+                  <span style="color: var(--accent-cyan); font-weight: bold;">== 1.0.0</span>
+                </div>
+                <div class="venv-pkg-item">
+                  <span>urllib3</span>
+                  <span style="color: var(--accent-yellow);">== 1.26.0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project B Bubble -->
+            <div class="venv-bubble-card" style="border-color: var(--accent-cyan);">
+              <div class="venv-bubble-header" style="color: var(--accent-cyan);">
+                <span>📁 Project B (venv)</span>
+                <span class="badge py-version">Isolated</span>
+              </div>
+              <div class="venv-pkg-list">
+                <div class="venv-pkg-item">
+                  <span>requests</span>
+                  <span style="color: var(--accent-cyan); font-weight: bold;">== 2.32.3</span>
+                </div>
+                <div class="venv-pkg-item">
+                  <span>pandas</span>
+                  <span style="color: var(--accent-yellow);">== 2.2.2</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center; font-size: 0.72rem; color: var(--text-dim);">
+            Command to create: <code>python -m venv myenv</code> | Keeps project dependencies independent without collisions!
+          </div>
+        </div>
+      `;
+
+      this.canvas.innerHTML = html;
+    }
+
+    // 2.9 pip Package Hub
+    renderPipPackageHub(state) {
+      this.clear();
+      const activePkg = state.activePkg || null;
+
+      const packages = [
+        { name: 'requests', icon: '🌐', use: 'Working with web APIs & HTTP' },
+        { name: 'pandas', icon: '📊', use: 'Data analysis & dataframes' },
+        { name: 'numpy', icon: '🔢', use: 'Numerical arrays & scientific math' },
+        { name: 'flask', icon: '🌶️', use: 'Lightweight web development' },
+        { name: 'django', icon: '🦄', use: 'Full-featured web framework' },
+        { name: 'pytest', icon: '🧪', use: 'Automated testing & test suites' }
+      ];
+
+      let html = `
+        <div class="pip-stage">
+          <div class="pypi-cloud-banner">
+            <div>
+              <strong>📦 PyPI (Python Package Index)</strong>
+              <span style="color: var(--text-dim); margin-left: 0.5rem;">500,000+ open-source libraries</span>
+            </div>
+            <div style="font-family: var(--font-mono); color: var(--accent-yellow); font-size: 0.72rem;">
+              python -m pip install &lt;package&gt;
+            </div>
+          </div>
+
+          <div class="pip-packages-grid">
+            ${packages.map(p => `
+              <div class="pip-pkg-card ${activePkg === p.name ? 'active' : ''}">
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>${p.icon}</span>
+                  <span class="pip-pkg-name">${p.name}</span>
+                </div>
+                <div class="pip-pkg-use">${p.use}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div style="font-size: 0.72rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 0.35rem 0.65rem; border-radius: 4px; color: var(--text-muted); text-align: center;">
+            💡 <strong>Why <code>python -m pip</code>?</strong> Guarantees packages install for the <em>exact</em> Python interpreter currently in use!
+          </div>
+        </div>
+      `;
+
+      this.canvas.innerHTML = html;
+    }
+
+    // 2.10 requirements.txt Lifecycle
+    renderRequirementsLifecycle(state) {
+      this.clear();
+      const phase = state.phase || 'freeze'; // 'freeze', 'file', 'install', 'tree'
+
+      let html = `
+        <div class="requirements-stage">
+          <div class="req-pipeline-flow">
+            <div class="req-step-box">
+              <span style="font-size: 1.1rem;">📤</span>
+              <span style="font-weight: 700;">1. Export</span>
+              <span class="cmd">pip freeze &gt; requirements.txt</span>
+            </div>
+            <span style="color: var(--text-dim); font-size: 1.1rem;">➔</span>
+            <div class="req-step-box">
+              <span style="font-size: 1.1rem;">📄</span>
+              <span style="font-weight: 700;">2. Share File</span>
+              <span style="font-size: 0.7rem; color: var(--accent-cyan);">Committed to Git repo</span>
+            </div>
+            <span style="color: var(--text-dim); font-size: 1.1rem;">➔</span>
+            <div class="req-step-box">
+              <span style="font-size: 1.1rem;">📥</span>
+              <span style="font-weight: 700;">3. Replicate</span>
+              <span class="cmd">pip install -r requirements.txt</span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <!-- requirements.txt content -->
+            <div class="req-file-preview">
+              <div style="color: var(--text-dim); font-size: 0.68rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.2rem; margin-bottom: 0.4rem;">
+                requirements.txt
+              </div>
+              <div>requests==2.32.3</div>
+              <div>pandas==2.2.2</div>
+              <div>numpy==2.0.1</div>
+            </div>
+
+            <!-- Project Structure Tree -->
+            <div class="project-tree-pill">
+              <div style="color: var(--text-dim); font-size: 0.68rem; margin-bottom: 0.2rem;">Typical Project Structure:</div>
+weather_app/
+├── app.py
+├── requirements.txt
+└── venv/
+            </div>
+          </div>
+        </div>
+      `;
 
       this.canvas.innerHTML = html;
     }
